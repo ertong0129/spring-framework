@@ -335,7 +335,7 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 		if (StringUtils.hasLength(beanName) && this.targetSourcedBeans.contains(beanName)) {
 			return bean;
 		}
-		if (Boolean.FALSE.equals(this.advisedBeans.get(cacheKey))) {
+		if (Boolean.FALSE.equals(this.advisedBeans.get(cacheKey)) /*|| this.advisedBeans.containsKey(cacheKey)*/) {
 			return bean;
 		}
 		if (isInfrastructureClass(bean.getClass()) || shouldSkip(bean.getClass(), beanName)) {

@@ -143,6 +143,14 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 		}
 	}
 
+	protected void addEarlySingleton(String beanName, Object earlySingletonObject) {
+		synchronized (this.earlySingletonObjects) {
+			this.earlySingletonObjects.put(beanName, earlySingletonObject);
+			this.singletonFactories.remove(beanName);
+			this.registeredSingletons.add(beanName);
+		}
+	}
+
 	/**
 	 * Add the given singleton factory for building the specified singleton
 	 * if necessary.

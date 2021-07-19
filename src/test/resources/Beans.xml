@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns="http://www.springframework.org/schema/beans" xmlns:aop="http://www.springframework.org/schema/aop"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+	<bean id="a" class="com.demo.entity.A">
+		<!-- 为属性赋值 -->
+		<!-- 通过属性注入: 通过 setter 方法注入属性值 -->
+		<!--<property name="name" value="wang"></property>-->
+		<!--<property name="b" ref="b"></property>-->
+	</bean>
+
+	<bean id="b" class="com.demo.entity.B">
+		<!-- 为属性赋值 -->
+		<!-- 通过属性注入: 通过 setter 方法注入属性值 -->
+		<property name="c" ref="a"></property>
+	</bean>
+
+	<!--切面类-->
+	<bean id="aopLog" class="com.demo.AopLog"/>
+
+	<aop:config>
+		<aop:aspect id = "aopLogAspect" ref = "aopLog">
+			<!--定义切点-->
+			<aop:pointcut id="action" expression="execution(public * com.demo.entity.*.*(..))"/>
+			<!--&lt;!&ndash; 声明前置通知 (在切点方法被执行前调用)&ndash;&gt;
+			<aop:before method="buy" pointcut-ref="action"/>
+			&lt;!&ndash; 声明后置通知 (在切点方法被执行后调用)&ndash;&gt;
+			<aop:after method="clear" pointcut-ref="action"/>-->
+			<!-- 声明环绕通知 (在切点方法被执行前后调用)-->
+			<aop:around method="aroundLog" pointcut-ref="action"/>
+		</aop:aspect>
+	</aop:config>
+
+	<!--<aop:aspectj-autoproxy  expose-proxy="true"   proxy-target-class="true"/>-->
+
+</beans>
